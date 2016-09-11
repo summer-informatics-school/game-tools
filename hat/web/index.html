@@ -1,0 +1,263 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+    <meta name="description" content="hat">
+    <meta name="author" content="iskhakovt">
+
+    <title>Шляпа</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap theme -->
+    <link href="bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="form.css" rel="stylesheet">
+
+    <script src="jquery.min.js" type="text/javascript"></script>
+  </head>
+
+  <body role="document">
+
+    <div class="container theme-showcase" role="main">
+      <div class="jumbotron">
+        <div class="row">
+          <div class="col-md-5">
+            <h1>Шляпа</h1>
+          </div>
+          <div class="col-md-2">
+            <p><a class="btn btn-lg btn-success" href="rules.html" role="button" style="position:relative; top:38px;"> Правила игры</a></p>
+          </div>
+          <div class="col-md-2">
+            <p><a class="btn btn-lg btn-success" href="registered.html" role="button" style="position:relative; top:38px;">Зарегистрированные пары</a></p>
+          </div>
+        </div>
+
+        <br><br>
+
+        <p>Регистрация на турнир по шляпе</p>
+        <h4>В каждой паре может быть не более одного преподавателя</h4>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+          <form class="form-signin" role="form">
+            <h2 class="form-signin-heading">Первый участник</h2>
+            <div id="first_name_remote">
+              <input id="first_name" class="typeahead form-control" type="text">
+            </div>
+          </form>
+          <form class="form-signin" role="form">
+            <h2 class="form-signin-heading">Второй участник</h2>
+            <div id="second_name_remote">
+              <input id="second_name" class="typeahead form-control" type="text">
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="row">
+        <div class="text-center">
+          <div id="select" class="btn-group" data-toggle="buttons">
+            <label class="btn btn-primary active">
+              <input type="radio" name="options" id="all" autocomplete="off">Ввод всех слов сразу</input>
+            </label>
+            <label class="btn btn-primary">
+              <input type="radio" name="options" id="sep" autocomplete="off">Ввод слов по одному</input>
+            </label>
+          </div>
+        </div>
+
+        <br>
+
+        <h2 class="form-words-heading" style="position:relative; left:44px;" id="head"></h2>
+        <div id="sep_form">
+          <div class="col-lg-4">
+             <form class="form-words" role="form" id="col0"></form>
+          </div>
+          <div class="col-lg-4">
+            <form class="form-words" role="form" id="col1"></form>
+          </div>
+          <div class="col-lg-4">
+            <form class="form-words" role="form" id="col2"></form>
+          </div>
+        </div>
+        <div id="all_form">
+          <br>
+          <div class="col-lg-12">
+            <form class="form-all" role="form">
+              <textarea type="any" id="all_words" class="form-control" rows="16" required></textarea>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="row">
+        <div class=".col-md-2 .col-md-offset-6">
+          <form class="form-words" role="form">
+            <input type="button" id="send" class="btn btn-lg btn-success" onclick="act()" style="position:relative; left:80px;" value="Отправить!">
+          </form>
+        </div>
+
+        <br><br><br>
+      </div>
+    </div>
+
+
+    <script type="text/javascript">
+      var MIN_WORDS = 50;
+      var words = [];
+      var displayed_words = 0;
+
+      var curr_sep = false;
+      var separators = ['\t', '\n', '\r', ',', '.', '!', '?', ':', ' '];
+
+      function add_sep_input(num) {
+        $('<input>').attr({
+          id: num,
+          type: 'text',
+          class: 'form-control sep_input'
+        }).appendTo($('#col' + (num % 3)));
+      }
+
+      function update_displayed_words(num) {
+        if (num <= displayed_words) {
+          return;
+        }
+
+        var updated_displayed_words = Math.ceil(num / 3) * 3;
+        for (var i = displayed_words; i != updated_displayed_words; ++i) {
+          add_sep_input(i);
+        }
+        displayed_words = updated_displayed_words;
+      }
+
+      function update() {
+        var local_words = [];
+
+        if (curr_sep) {
+          var word_dict = {}
+          $('.sep_input').each(function() {
+            if (this.value != '') {
+              word_dict[this.id] = this.value;
+            }
+          });
+
+          var keys = Object.keys(word_dict);
+          keys.sort();
+          keys.forEach(function(key) {
+            local_words.push(word_dict[key]);
+          });
+        } else {
+          var local_words_str = $(all_words).val();
+          for (var sep of separators) {
+            local_words_str = replaceAll(local_words_str, sep, '\n');
+          }
+          local_words = local_words_str.split('\n').filter(function(word) { return word != ''; });
+        }
+
+        words = local_words;
+        update_displayed_words($.unique(words).length + 3);
+        $(head).html("Слова: (" + words.length + " / " + MIN_WORDS + "+)");
+      }
+
+      $(document).ready(function() {
+        $.get(
+          'autocomplete.json',
+          function(data) { $('.typeahead').typeahead({
+            highlight:true,
+            source: data
+          }); }
+        );
+
+        update_displayed_words(MIN_WORDS);
+
+        $('#all_form').show();
+        $('#sep_form').hide();
+
+        setInterval(update, 100);
+      });
+
+      function escapeRegExp(string) {
+        return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+      }
+
+      function replaceAll(string, find, replace) {
+        return string.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+      }
+
+      $(select).on('change', function(event) {
+        if ($(sep)[0].checked) {
+          sep_activate();
+        } else {
+          all_activate();
+        }
+      });
+
+      function sep_activate() {
+        curr_sep = true;
+
+        update_displayed_words(words.length + 3);
+
+        for (var i = 0; i!= words.length; ++i) {
+          $('#' + i).val(words[i]);
+        }
+
+        $(all_form).hide();
+        $(sep_form).show();
+      }
+
+      function all_activate() {
+        curr_sep = false;
+        $(all_words).val(words.join('\n'));
+
+        $(sep_form).hide();
+        $(all_form).show();
+      }
+
+      function act() {
+        $('input[type="button"]').prop('disabled', true);
+
+        if ( $('#first_name').val()  == "" ||
+             $('#second_name').val() == "" ) {
+          alert('Не все поля заполнены!');
+          $('input[type="button"]').prop("disabled", false);
+          return;
+        }
+
+        if ($.unique(words).length < MIN_WORDS) {
+          alert('Введите ' + MIN_WORDS + ' слов!');
+          $('input[type="button"]').prop("disabled", false);
+          return;
+        }
+
+        $.post(
+          'push.php',
+          {
+            first_name: $('#first_name').val(),
+            second_name: $('#second_name').val(),
+            words: words.join('\n')
+          }
+        ).done(function() {
+          window.location.replace('success.html');
+          //alert('Ваши слова записаны!');
+        }).fail(function() {
+          alert('Ошибка отправки');
+        });
+
+        $('input[type="button"]').prop("disabled", false);
+      }
+    </script>
+
+    <script src="bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="bootstrap3-typeahead.min.js" type="text/javascript"></script>
+  </body>
+</html>

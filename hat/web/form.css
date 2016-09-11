@@ -1,0 +1,57 @@
+.form-signin {
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+  margin-bottom: 10px;
+}
+.form-signin .checkbox {
+  font-weight: normal;
+}
+.form-signin .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+
+.form-words {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-words .form-words-heading {
+  margin:0 auto;
+  margin-bottom: 10px;
+}
+.form-words .checkbox {
+  font-weight: normal;
+}
+.form-control,.form-words .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-words .form-control:focus {
+  z-index: 2;
+}
+.form-words input[type="any"] {
+  margin-bottom: 10px;
+}
+
+.form-control {
+  max-width: 1000px;
+  padding: 15px;
+  margin: 0 auto;
+}

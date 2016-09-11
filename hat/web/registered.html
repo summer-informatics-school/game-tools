@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+    <meta name="description" content="hat">
+    <meta name="author" content="iskhakovt">
+
+    <title>Зарегистрированные пары</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap theme -->
+    <link href="bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+
+    <script src="jquery.min.js" type="text/javascript"></script>
+  </head>
+
+  <body role="document">
+
+    <div class="container theme-showcase" role="main">
+      <div class="jumbotron">
+        <div class="row">
+          <div class="col-md-5">
+            <h1>Шляпа</h1>
+          </div>
+          <div class="col-md-2">
+            <p><a class="btn btn-lg btn-success" href="." role="button" style="position:relative; top:38px;">Регистрация</a></p>
+          </div>
+          <div class="col-md-2">
+            <p><a class="btn btn-lg btn-success" href="rules.html" role="button" style="position:relative; top:38px;">Правила игры</a></p>
+          </div>
+        </div>
+
+        <br><br>
+
+        <p>Список зарегистрированных пар</p>
+        <h4>Обновляется раз в день</h4>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="col-md-8">
+        <table class="table table-bordered table-striped" id="teams">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Первый участник</th>
+              <th>Второй участник</th>
+            </tr>
+          </thead>
+          <tbody> 
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <script>
+      $(document).ready(function() {
+        $.get(
+          'participants.json',
+          function(data) {
+            for (var key in data) {
+              $('#teams tbody:last-child').append(
+                $('<tr>').append(
+                  $('<td>').text(parseInt(key) + 1),
+                  $('<td>').text(data[key].name0),
+                  $('<td>').text(data[key].name1)
+                )
+              );
+            }
+          }
+        );
+      });
+    </script>
+
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
