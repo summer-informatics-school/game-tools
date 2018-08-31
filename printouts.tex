@@ -3,8 +3,9 @@
 \usepackage{graphicx}
 \usepackage{longtable}
 \usepackage{polyglossia}
-\setdefaultlanguage{english}
-%\setdefaultlanguage{russian}
+%\setdefaultlanguage{english}
+\setdefaultlanguage{russian}
+\setmainfont[Mapping=tex-text]{CMU Serif}
 \pagestyle{empty}
 \begin{document}
 \begin{center}
@@ -14,13 +15,13 @@
 %\newcommand{\p}[1]{\doLabel{#1}}
 %\newcommand{\p}[1]{\doRegistration{#1}}
 
-\newcommand{\team}{\iflanguage{russian}{Komanda}{Team}}
-\newcommand{\question}{\iflanguage{russian}{Vopros}{Question}}
-\newcommand{\teamName}{\iflanguage{russian}{Nazvanie}{Name}}
-\newcommand{\fullName}{\iflanguage{russian}{Familiya, Imya, Otchestvo}{Full name}}
-\newcommand{\city}{\iflanguage{russian}{Gorod}{City}}
+\newcommand{\team}{\iflanguage{russian}{Команда}{Team}}
+\newcommand{\question}{\iflanguage{russian}{Вопрос}{Question}}
+\newcommand{\teamName}{\iflanguage{russian}{Название}{Name}}
+\newcommand{\fullName}{\iflanguage{russian}{Фамилия, имя, отчество}{Full name}}
+\newcommand{\city}{\iflanguage{russian}{Город}{City}}
 
-\newcommand{\hs}{\hspace{3em}}
+\newcommand{\hs}{\hspace{2.5em}}
 \newcommand{\q}[4]{
 ~ & ~ & ~\\
 ~~\team{} #1 \hs \question{} #2 & ~~\team{} #1 \hs \question{} #3 & ~~\team{} #1 \hs \question{} #4\\
