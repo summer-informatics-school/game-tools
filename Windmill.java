@@ -17,8 +17,8 @@ public class Windmill {
 		StringBuilder[] sb = new StringBuilder[MAX_PLAYERS];
 		for (int i = 0; i < MAX_PLAYERS; i++) {
 			String playerString = String.format("%0" + ("" + MAX_PLAYERS).length() + "d", i + 1);
-			sb[i] = new StringBuilder("Player " + playerString + ".\t Name: \n\n\n").
-					append("Player " + playerString + ".\n");
+			sb[i] = new StringBuilder("Player " + playerString + ".\t Name: \n");
+			//append("\nPlayer " + playerString + ".\n");
 		}
 		for (int tables = 1; tables <= MAX_TABLES; tables++) {
 			int players = tables * TABLE_SIZE;
@@ -133,7 +133,7 @@ public class Windmill {
 		}
 		PrintWriter pw = new PrintWriter("~print.txt");
 		for (int i = 0; i < MAX_PLAYERS; i++) {
-			sb[i].append("\n\n");
+			sb[i].append("\n");
 			pw.println(sb[i]);
 		}
 		pw.close();
