@@ -1,6 +1,8 @@
 # windmill
 Shuffle random teams, get individual scores (ЧГК: мельница / кубок дружбы / ЛКШаффл)
 
+Merged from https://github.com/mikhail-dvorkin/windmill into SIS public repository
+
 # Instructions in Russian
 
 * Запустить javac Windmill.java и java Windmill
